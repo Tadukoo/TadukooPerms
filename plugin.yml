@@ -1,0 +1,28 @@
+name: Tadukoo_Perms
+main: com.gmail.lucario77777777.TP.TP
+version: Beta 0.4
+description: Control the permissions of your server.
+author: Tadukoo
+prefix: TP
+commands:
+   tperm:
+      description: The base command for all Tadukoo Perms commands.
+      usage: /<command>
+      permission: TadukooPerms.use
+      permission-message: You don't have <permission>
+permissions:
+   TadukooPerms.use:
+      description: Allows you to use the commands.
+      default: op
+   TadukooPerms.setrank:
+      description: Allows you to use /tperm setrank.
+      default: op
+   TadukooPerms.perm:
+      description: Allows you to use /tperm perm.
+      default: op
+   TadukooPerms.rank:
+      description: Allows you to use /tperm rank.
+      default: op
+   TadukooPerms.reload:
+      description: Allows you to use /tperm reload.
+      default: op
