@@ -1,4 +1,4 @@
-package com.gmail.lucario77777777.TP;
+package com.gmail.realtadukoo.TP;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +9,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.gmail.realtadukoo.TC.TC;
 
 public class TP extends JavaPlugin {
 	public static TP plugin;
@@ -30,6 +34,7 @@ public class TP extends JavaPlugin {
 	public FileConfiguration rank = null;
 	public String lastRankWorld = null;
 	public String lastRank = null;
+	public TC TCClass = null;
 	
 	@Override
 	public void onDisable () {
@@ -37,11 +42,13 @@ public class TP extends JavaPlugin {
 	}
 	@Override
 	public void onEnable () {
-		getCommand("tperm").setExecutor(new MainCommandExecutor(this));
-		this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+		getCommand("tperm").setExecutor(new PComExec(this));
+		this.getServer().getPluginManager().registerEvents(new PPlayerListener(this), this);
 		config = getConfig();
 		saveDefaultConfig();
 		makeDefaultWorldFiles();
+		
+		TCClass = (TC) plugin.getServer().getPluginManager().getPlugin("Tadukoo_Core");
 	}
 	
 	public void makeDefaultWorldFiles(){
@@ -67,12 +74,18 @@ public class TP extends JavaPlugin {
 		}
 	}
 	
+	/*
+	 * Reloads users.yml for the specified world.
+	 */
 	public void reloadUsers(String worldName){
 		usersFile = new File(getDataFolder(), worldName + "/users.yml");
 		users = YamlConfiguration.loadConfiguration(usersFile);
 		lastUsersWorld = worldName;
 	}
 	
+	/*
+	 * Returns the users.yml for the specified world.
+	 */
 	public FileConfiguration getUsers(String worldName) {
 		if(users == null || (lastUsersWorld != null && worldName != lastUsersWorld)){
 			reloadUsers(worldName);
@@ -154,5 +167,49 @@ public class TP extends JavaPlugin {
 	    rankFile = null;
 	    lastRankWorld = worldName;
 	    lastRank = rankName;
+	}
+	
+	/*
+	 * Returns the prefix for the rank of the player.
+	 */
+	public static String getRankPrefix(Player player){
+		String worldName = player.getWorld().getName().toLowerCase();
+		String playerRank = Perms.getRank(player);
+		String prefix = plugin.getRank(worldName, playerRank).getString("prefix");
+		
+		if(prefix.contains("{")){
+			// Replace {COLOR} with the color/formatting code.
+			prefix = prefix.replaceAll("{AQUA}", ChatColor.AQUA.toString());
+			prefix = prefix.replaceAll("{BLACK}", ChatColor.BLACK.toString());
+			prefix = prefix.replaceAll("{BLUE}", ChatColor.BLUE.toString());
+			prefix = prefix.replaceAll("{B}", ChatColor.BOLD.toString());
+			prefix = prefix.replaceAll("{BOLD}", ChatColor.BOLD.toString());
+			prefix = prefix.replaceAll("{DARK_AQUA}", ChatColor.DARK_AQUA.toString());
+			prefix = prefix.replaceAll("{DARK_BLUE}", ChatColor.DARK_BLUE.toString());
+			prefix = prefix.replaceAll("{DARK_GRAY}", ChatColor.DARK_GRAY.toString());
+			prefix = prefix.replaceAll("{DARK_GREEN}", ChatColor.DARK_GREEN.toString());
+			prefix = prefix.replaceAll("{DARK_PURPLE}", ChatColor.DARK_PURPLE.toString());
+			prefix = prefix.replaceAll("{DARK_RED}", ChatColor.DARK_RED.toString());
+			prefix = prefix.replaceAll("{GOLD}", ChatColor.GOLD.toString());
+			prefix = prefix.replaceAll("{GRAY}", ChatColor.GRAY.toString());
+			prefix = prefix.replaceAll("{GREEN}", ChatColor.GREEN.toString());
+			prefix = prefix.replaceAll("{I}", ChatColor.ITALIC.toString());
+			prefix = prefix.replaceAll("{ITALICS}", ChatColor.ITALIC.toString());
+			prefix = prefix.replaceAll("{LIGHT_PURPLE}", ChatColor.LIGHT_PURPLE.toString());
+			prefix = prefix.replaceAll("{K}", ChatColor.MAGIC.toString());
+			prefix = prefix.replaceAll("{MAGIC}", ChatColor.MAGIC.toString());
+			prefix = prefix.replaceAll("{RED}", ChatColor.RED.toString());
+			prefix = prefix.replaceAll("{R}", ChatColor.RESET.toString());
+			prefix = prefix.replaceAll("{RESET}", ChatColor.RESET.toString());
+			prefix = prefix.replaceAll("{STRIKE}", ChatColor.STRIKETHROUGH.toString());
+			prefix = prefix.replaceAll("{U}", ChatColor.UNDERLINE.toString());
+			prefix = prefix.replaceAll("{UNDERLINE}", ChatColor.UNDERLINE.toString());
+			prefix = prefix.replaceAll("{WHITE}", ChatColor.WHITE.toString());
+			prefix = prefix.replaceAll("{YELLOW}", ChatColor.YELLOW.toString());
+		}else if(prefix.contains("&")){
+			// Replace & with the section symbol for color codes.
+			prefix = prefix.replace('&', ChatColor.COLOR_CHAR);
+		}
+		return prefix;
 	}
 }

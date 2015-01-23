@@ -23,6 +23,7 @@ Command Usage
 /tperm setrank < world > < player > < rank >
 * Sets a player's rank for the specified world.
 * Checks to see if the rank is listed in the world's ranks list in the config.yml and fails if it isn't listed.
+* Uses Tadukoo Core to get the UUID of the player to use.
 
 /tperm perm < rank > < world > < permission > [true|false|remove]
 * Putting in a true or false sets the permission.
@@ -107,8 +108,6 @@ Upcoming Commands/Features
 --------------------------
 Make an Enum for valid things to type in commands/checking files for worlds and ranks?
 
-Make it  so /tperm setrank can use the player name to change ranks rather than going through the UUID. (this way offline players can be changed).
-
 /tperm world < create|remove > <world>
 * Creates or removes a world from the plugin.
 
@@ -123,10 +122,12 @@ Make it so that when a player is reloaded, it checks all worlds for their UUID t
 Issue if command /tperm setrank typed wrong.. nullpoint on MainCommandExecutor line 34
 
 Make it so that a world can have the permissions from another world (or inherit them?)
+* This would be all ranks and the users.yml being inherited between worlds.
 
 Make it so that a rank can inherit from another world's rank. (i.e. Member in world_nether inherits from Member in world)
+* This is just per rank, like world_nether's Member could have "inherits: world:Member", while the other world_nether ranks aren't inherited from world.
 
-Make the display name change configurable.
+Commands to show inheritance chains, unique permissions, and all permissions in a chain.
 
 Known Issues
 ------------

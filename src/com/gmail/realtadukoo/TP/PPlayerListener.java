@@ -1,4 +1,4 @@
-package com.gmail.lucario77777777.TP;
+package com.gmail.realtadukoo.TP;
 
 import java.util.UUID;
 
@@ -11,25 +11,23 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
-public class PlayerListener implements Listener {
+public class PPlayerListener implements Listener {
 	private TP plugin;
-	private MainCommandExecutor me;
 	
-	public PlayerListener(TP plugin){
+	public PPlayerListener(TP plugin){
 		this.plugin = plugin;
-		me = new MainCommandExecutor(plugin);
 	}
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
-		me.reloadPerms(player);
+		Perms.reloadPerms(player);
 	}
 	
 	@EventHandler
 	public void onPlayerChangeWorld(PlayerChangedWorldEvent event){
 		Player player = event.getPlayer();
-		me.reloadPerms(player);
+		Perms.reloadPerms(player);
 	}
 	
 	@EventHandler

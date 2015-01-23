@@ -1,5 +1,2 @@
 # Alerts a player when they receive a new rank.
 player-messages: true
-
-# Changes the chat format.
-chat-formatting: true
