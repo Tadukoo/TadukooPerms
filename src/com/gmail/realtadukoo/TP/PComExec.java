@@ -3,6 +3,7 @@ package com.gmail.realtadukoo.TP;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,8 @@ public class PComExec implements CommandExecutor {
 					if(args.length == 4){
 						String world = args[1].toLowerCase();
 						String playerName = args[2];
-						UUID ID = plugin.TCClass.getUUID(playerName);
+						@SuppressWarnings("deprecation")
+						UUID ID = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 						Player player = plugin.getServer().getPlayer(ID);
 						String rank = args[3].toLowerCase();
 						if(!plugin.getConfig().getStringList("worlds").contains(world)){

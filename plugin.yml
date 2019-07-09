@@ -3,7 +3,7 @@ main: com.gmail.lucario77777777.TP.TP
 version: Beta 0.4.3.1
 description: Control the permissions of your server.
 author: Tadukoo
-depend: [Tadukoo_Core]
+depend: []
 prefix: TP
 commands:
    tperm:

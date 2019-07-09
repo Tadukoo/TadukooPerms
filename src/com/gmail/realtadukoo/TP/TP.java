@@ -17,9 +17,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.realtadukoo.TC.TC;
-
-public class TP extends JavaPlugin {
+public class TP extends JavaPlugin{
 	public static TP plugin;
 	PluginDescriptionFile pdfFile = this.getDescription();
 	public static FileConfiguration config;
@@ -34,10 +32,9 @@ public class TP extends JavaPlugin {
 	public FileConfiguration rank = null;
 	public String lastRankWorld = null;
 	public String lastRank = null;
-	public TC TCClass = null;
 	
 	@Override
-	public void onDisable () {
+	public void onDisable(){
 		permissions.clear();
 	}
 	@Override
@@ -47,8 +44,6 @@ public class TP extends JavaPlugin {
 		config = getConfig();
 		saveDefaultConfig();
 		makeDefaultWorldFiles();
-		
-		TCClass = (TC) plugin.getServer().getPluginManager().getPlugin("Tadukoo_Core");
 	}
 	
 	public void makeDefaultWorldFiles(){

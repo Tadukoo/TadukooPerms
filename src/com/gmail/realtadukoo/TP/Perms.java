@@ -144,7 +144,7 @@ public class Perms{
 	 * Reload all the permissions for all players.
 	 */
 	public static void reloadAllPerms(TP plugin){
-		Player[] players = plugin.getServer().getOnlinePlayers();
+		Player[] players = (Player[]) plugin.getServer().getOnlinePlayers().toArray();
 		int p = 0;
 		int pL = players.length;
 		boolean cont = true;
