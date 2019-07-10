@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="junit"/>
 	<classpathentry kind="lib" path="C:/Users/Tadukoo/Desktop/Tadukoo/Programming/Bukkit Plugins/bukkit-1.14.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

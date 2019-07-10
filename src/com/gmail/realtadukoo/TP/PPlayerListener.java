@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,14 +12,14 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
-public class PPlayerListener implements Listener {
+public class PPlayerListener implements Listener{
 	private TP plugin;
 	
 	public PPlayerListener(TP plugin){
 		this.plugin = plugin;
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOW)
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		Perms.reloadPerms(player);

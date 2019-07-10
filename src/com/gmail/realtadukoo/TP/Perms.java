@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -28,7 +27,7 @@ public class Perms{
 		}
 		
 		// Get the player's rank.
-		playerRank = getRank(player);
+		playerRank = getRank(player, worldName);
 		
 		// Set player's name in users.yml so that when looking at the file, you can tell who the UUID belongs to.
 		plugin.getUsers(worldName).set(idName + ".player", player.getName());
@@ -39,6 +38,11 @@ public class Perms{
 		
 		// Add the player's actual rank
 		ranks.add(playerRank);
+		
+		if(TP.config.getBoolean("chat-formatting")){
+			player.setDisplayName("[" + player.getWorld().getName() + "] " + TP.getRankPrefix(player) + player.getName() + 
+					ChatColor.RESET);
+		}
 		
 		// Keep going through inheritance until the chain ends.
 		boolean contGetRanks = true;
@@ -60,11 +64,11 @@ public class Perms{
 					}else{
 						// If the other world isn't found, the rank can't exist.
 						plugin.getRank(worldName, curRank).set("inherits", null);
-						plugin.getLogger().log(Level.WARNING, ChatColor.RED + "Rank " + curRank + " in world " +
+						plugin.getLogger().log(Level.WARNING, ChatColor.RED + "Rank " + curRank + " in world " + 
 								worldName + " had inheritance of " + newPrevRank + " for world " + newWorld + 
 								". World " + newWorld + " could not be found.");
-						plugin.getLogger().log(Level.WARNING, ChatColor.RED + "Inheritance has been erased to "
-								+ "prevent further confusion with Tadukoo Perms");
+						plugin.getLogger().log(Level.WARNING, ChatColor.RED + "Inheritance has been erased to " + 
+								"prevent further confusion with Tadukoo Perms");
 						setRank = false;
 					}
 				}
@@ -161,10 +165,9 @@ public class Perms{
 	/*
 	 * Returns the player's rank.
 	 */
-	public static String getRank(Player player){
-		String playerRank;
-		String worldName = player.getWorld().getName().toLowerCase();
+	public static String getRank(Player player, String worldName){
 		String idName = player.getUniqueId().toString();
+		String playerRank;
 		
 		// Check if the player's rank is set in users.yml for that world.
 		if(plugin.getUsers(worldName).isSet(idName + ".rank")){
@@ -183,5 +186,12 @@ public class Perms{
 			plugin.saveUsers(worldName);
 		}
 		return playerRank;
+	}
+	
+	public String getDefaultWorldRank(String worldName){
+		if(plugin.getWorld(worldName).isSet("default-rank")){
+			return plugin.getWorld(worldName).getString("default-rank");
+		}
+		return null;
 	}
 }
